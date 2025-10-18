@@ -4,22 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jane Doe | Software Engineer</title>
+  <script>
+    (function() {
+      try {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = storedTheme || (prefersDark ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      } catch (error) {
+        console.warn('Theme detection failed', error);
+      }
+    })();
+  </script>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --bg-color: #fdfdfd;
       --text-color: #1f2933;
       --accent-color: #2563eb;
       --muted-color: #64748b;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --link-border: rgba(37, 99, 235, 0.35);
+      --surface-color: rgba(255, 255, 255, 0.7);
+      --card-color: rgba(255, 255, 255, 0.8);
+      --main-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.4);
+      --main-hover-shadow: 0 40px 60px -30px rgba(15, 23, 42, 0.5);
+      --card-shadow: 0 20px 45px -35px rgba(15, 23, 42, 0.5);
+      --toggle-border: rgba(37, 99, 235, 0.25);
+      --toggle-hover: rgba(37, 99, 235, 0.15);
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #0f172a;
-        --text-color: #e2e8f0;
-        --muted-color: #94a3b8;
-      }
+    :root[data-theme='dark'] {
+      color-scheme: dark;
+      --bg-color: #0f172a;
+      --text-color: #e2e8f0;
+      --muted-color: #94a3b8;
+      --surface-color: rgba(15, 23, 42, 0.65);
+      --card-color: rgba(15, 23, 42, 0.75);
+      --link-border: rgba(148, 163, 184, 0.35);
+      --main-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.75);
+      --main-hover-shadow: 0 40px 60px -30px rgba(15, 23, 42, 0.85);
+      --card-shadow: 0 20px 45px -35px rgba(15, 23, 42, 0.85);
+      --toggle-border: rgba(148, 163, 184, 0.35);
+      --toggle-hover: rgba(148, 163, 184, 0.18);
     }
 
     body {
@@ -39,23 +66,17 @@
     main {
       max-width: 720px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.7);
+      background: var(--surface-color);
       backdrop-filter: blur(12px);
       border-radius: 24px;
-      box-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.4);
+      box-shadow: var(--main-shadow);
       padding: 3rem;
       transition: transform 250ms ease, box-shadow 250ms ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      main {
-        background: rgba(15, 23, 42, 0.65);
-      }
-    }
-
     main:hover {
       transform: translateY(-6px);
-      box-shadow: 0 40px 60px -30px rgba(15, 23, 42, 0.5);
+      box-shadow: var(--main-hover-shadow);
     }
 
     header {
@@ -92,16 +113,10 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.8);
+      background: var(--card-color);
       border-radius: 18px;
       padding: 1.75rem;
-      box-shadow: 0 20px 45px -35px rgba(15, 23, 42, 0.5);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .card {
-        background: rgba(15, 23, 42, 0.75);
-      }
+      box-shadow: var(--card-shadow);
     }
 
     .card h2 {
@@ -122,7 +137,7 @@
       font-weight: 600;
       padding: 0.6rem 1.1rem;
       border-radius: 999px;
-      border: 1px solid rgba(37, 99, 235, 0.35);
+      border: 1px solid var(--link-border);
       transition: background 200ms ease, color 200ms ease, transform 200ms ease;
     }
 
@@ -139,6 +154,38 @@
       color: var(--muted-color);
     }
 
+    .theme-toggle {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--toggle-border);
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background-color 200ms ease, transform 200ms ease, color 200ms ease;
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      background: var(--toggle-hover);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle:active {
+      transform: translateY(0);
+    }
+
+    .theme-toggle i {
+      width: 22px;
+      height: 22px;
+    }
+
     @media (max-width: 640px) {
       main {
         padding: 2.25rem;
@@ -147,6 +194,12 @@
       header {
         flex-direction: column;
         text-align: center;
+      }
+
+      .theme-toggle {
+        margin-left: 0;
+        margin-top: 1rem;
+        align-self: center;
       }
 
       h1 {
@@ -163,6 +216,9 @@
         <h1>Jane Doe</h1>
         <p class="lead">Software engineer crafting thoughtful web experiences with a focus on accessibility, performance, and human-centered design.</p>
       </div>
+      <button class="theme-toggle" type="button" aria-label="Activate dark mode" aria-pressed="false">
+        <i data-lucide="moon"></i>
+      </button>
     </header>
 
     <section>
@@ -191,8 +247,46 @@
       &copy; <span id="year"></span> Jane Doe. All rights reserved.
     </footer>
   </main>
-  <script>
+  <script type="module">
+    import { createIcons } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+
+    const themeToggleButton = document.querySelector('.theme-toggle');
+    const preferredTheme = localStorage.getItem('theme');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const applyTheme = (theme) => {
+      document.documentElement.dataset.theme = theme;
+      themeToggleButton.setAttribute('aria-pressed', theme === 'dark');
+      const nextTheme = theme === 'dark' ? 'light' : 'dark';
+      themeToggleButton.setAttribute('aria-label', `Activate ${nextTheme} mode`);
+      themeToggleButton.innerHTML = `<i data-lucide="${theme === 'dark' ? 'sun' : 'moon'}"></i>`;
+      createIcons();
+    };
+
+    const initialTheme = preferredTheme || (mediaQuery.matches ? 'dark' : 'light');
+    applyTheme(initialTheme);
+
+    themeToggleButton.addEventListener('click', () => {
+      const currentTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', nextTheme);
+      applyTheme(nextTheme);
+    });
+
+    const handlePreferenceChange = (event) => {
+      if (!localStorage.getItem('theme')) {
+        applyTheme(event.matches ? 'dark' : 'light');
+      }
+    };
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handlePreferenceChange);
+    } else if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(handlePreferenceChange);
+    }
+
     document.getElementById('year').textContent = new Date().getFullYear();
+    createIcons();
   </script>
 </body>
 </html>

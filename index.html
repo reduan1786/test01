@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jane Doe | Software Engineer</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg-color: #fdfdfd;
+      --text-color: #1f2933;
+      --accent-color: #2563eb;
+      --muted-color: #64748b;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0f172a;
+        --text-color: #e2e8f0;
+        --muted-color: #94a3b8;
+      }
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.15), transparent 55%),
+        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.2), transparent 60%),
+        var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    main {
+      max-width: 720px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      box-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.4);
+      padding: 3rem;
+      transition: transform 250ms ease, box-shadow 250ms ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      main {
+        background: rgba(15, 23, 42, 0.65);
+      }
+    }
+
+    main:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 40px 60px -30px rgba(15, 23, 42, 0.5);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    header img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(37, 99, 235, 0.3);
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    p.lead {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin: 0 0 2rem;
+      color: var(--muted-color);
+    }
+
+    section {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 18px;
+      padding: 1.75rem;
+      box-shadow: 0 20px 45px -35px rgba(15, 23, 42, 0.5);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card {
+        background: rgba(15, 23, 42, 0.75);
+      }
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      transition: background 200ms ease, color 200ms ease, transform 200ms ease;
+    }
+
+    .links a:hover {
+      background: var(--accent-color);
+      color: #f8fafc;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted-color);
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 2.25rem;
+      }
+
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=facearea&w=256&h=256&q=80" alt="Portrait of Jane Doe" />
+      <div>
+        <h1>Jane Doe</h1>
+        <p class="lead">Software engineer crafting thoughtful web experiences with a focus on accessibility, performance, and human-centered design.</p>
+      </div>
+    </header>
+
+    <section>
+      <article class="card">
+        <h2>About</h2>
+        <p>I&rsquo;m a multidisciplinary developer based in Portland, Oregon. Over the past eight years I&rsquo;ve partnered with startups and nonprofits to build tools that empower their communities. I love translating complex problems into intuitive interfaces and helping teams scale sustainable design systems.</p>
+      </article>
+
+      <article class="card">
+        <h2>Highlights</h2>
+        <ul>
+          <li>Currently leading front-end platform work at BrightPath Labs.</li>
+          <li>Previously designed data visualization tooling at Atlas Analytics.</li>
+          <li>Community mentor for the Women Who Code Portland chapter.</li>
+        </ul>
+        <div class="links">
+          <a href="mailto:jane@janedoe.dev">Email</a>
+          <a href="https://www.linkedin.com">LinkedIn</a>
+          <a href="https://www.github.com">GitHub</a>
+          <a href="https://janedoe.dev/resume.pdf">Résumé</a>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      &copy; <span id="year"></span> Jane Doe. All rights reserved.
+    </footer>
+  </main>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
